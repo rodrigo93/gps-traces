@@ -12,7 +12,7 @@ This is an example trace:
 # Stack
 
 - Docker
-- SQLite
+- SQLite3
 - Rails 6.0.0
 - Ruby 2.6.5
 - Rspec
@@ -34,13 +34,28 @@ This is an example trace:
 
 
 # Setup
-_TODO_
+For this project, we use Docker and docker-compose. So if you want to run this project,
+be sure to have both installed before continuing.
 
-## Downloading and installation
-_TODO_
+You can follow [this tutorial](https://docs.docker.com/compose/install/) explaining how to install them.
 
 # Running
-_TODO_
+All you need to do to run this project is running the following command in the root directory of this project:
+
+```shell
+$ docker-compose up
+```
+
+or, you can use:
+
+```shell
+$ dev/build
+$ dev/start
+```
+
+Wait for the build and have fun! :D
+
+PS: This might take some minutes, depending on you internet speed to download the necessary images.
 
 # Available commands
 
@@ -91,16 +106,79 @@ Stop all containers from this project.
 # Endpoints
 
 ## GET traces
-_TODO_
+- Route: `http://localhost:3000/api/v1/traces/<some-trace-id>`
+
+- Example:
+```
+curl -X GET \
+  http://localhost:3000/api/v1/traces/1 \
+  -H 'cache-control: no-cache'
+```
 
 ## PATCH traces
-_TODO_
+- Route: `http://localhost:3000/api/v1/traces/<some-trace-id>`
+
+- Example:
+```
+curl -X PATCH \
+  http://localhost:3000/api/v1/traces/1 \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Length: 226' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:3000' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F 'coordinates=[{"latitude":40.780517578125,"longitude":-73.9483489990234}]'
+```
 
 ## POST traces
-_TODO_
+- Route: `http://localhost:3000/api/v1/traces`
+
+- Example:
+```
+curl -X POST \
+  http://localhost:3000/api/v1/traces \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Length: 296' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:3000' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F 'coordinates=[{ "latitude": 32.937931060791, "longitude": -117.229949951172 },{ "latitude": 32.9379615783691, "longitude": -117.229919433594 }]'
+```
 
 ## PUT traces
-_TODO_
+- Route: `http://localhost:3000/api/v1/traces/<some-trace-id>`
+
+- Example:
+```
+curl -X PUT \
+  http://localhost:3000/api/v1/traces/1 \
+  -H 'Content-Type: application/json' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F 'coordinates=[{"latitude":40.780517578125,"longitude":-73.9483489990234}]'
+```
 
 ## DELETE traces
-_TODO_
+- Route: `http://localhost:3000/api/v1/traces/<some-trace-id>`
+
+- Example:
+```
+curl -X DELETE \
+  http://localhost:3000/api/v1/traces/1 \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Length: 0' \
+  -H 'Content-Type: multipart/form-data; boundary=--------------------------787690893027824478654983' \
+  -H 'Host: localhost:3000' \
+  -H 'cache-control: no-cache'
+```
