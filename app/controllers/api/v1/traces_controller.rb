@@ -1,32 +1,28 @@
 class Api::V1::TracesController < ApplicationController
   before_action :set_trace, only: %i[show update destroy]
 
-  # GET /api/v1/traces
-  def index
-    @traces = Trace.all
-
-    render json: @traces
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: {error: 'Trace cannot be found'}, status: :not_found
   end
 
   # GET /api/v1/traces/1
   def show
-    render json: @trace
+    render json: @trace, status: :found
   end
 
   # POST /api/v1/traces
   def create
-    @trace = Trace.new(trace_params.merge(user: current_user))
+    @trace = Trace.new(coordinates: params[:coordinates])
     if @trace.save
       render json: @trace, status: :created
     else
       render json: @trace.errors, status: :unprocessable_entity
     end
-
   end
 
   # PATCH/PUT /api/v1/traces/1
   def update
-    if @trace.update(trace_params)
+    if @trace.update(coordinates: params[:coordinates])
       render json: @trace
     else
       render json: @trace.errors, status: :unprocessable_entity
@@ -43,10 +39,5 @@ class Api::V1::TracesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_trace
     @trace = Trace.find(params[:id])
-  end
-
-  # Only allow a trusted parameter "white list" through.
-  def trace_params
-    params.require(:trace).permit(:coordinates)
   end
 end
