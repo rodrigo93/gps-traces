@@ -1,5 +1,5 @@
 class Trace < ApplicationRecord
-  attr_accessor :coordinates
+  validates_presence_of :coordinates
 
   validate :check_coordinates
 
