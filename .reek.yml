@@ -3,17 +3,6 @@
 # References:
 # https://github.com/troessner/reek#configuration-options
 
-exclude_paths:
-  - bin
-  - coverage
-  - node_modules
-  - public
-  - spec
-  - storage
-  - tmp
-  - vendor
-  - db/
-
 detectors:
   # https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md
   IrresponsibleModule:
@@ -51,3 +40,14 @@ directories:
     # https://github.com/troessner/reek/blob/master/docs/Instance-Variable-Assumption.md
     InstanceVariableAssumption:
       enabled: false
+
+exclude_paths:
+  - bin
+  - coverage
+  - node_modules
+  - public
+  - spec
+  - storage
+  - tmp
+  - vendor
+  - db
