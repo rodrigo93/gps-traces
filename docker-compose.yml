@@ -9,3 +9,8 @@ services:
       - .:/app
       - ./.git:/app/.git
       - ./.gitignore:/app/.gitignore
+  gps_traces_redis:
+    container_name: gps_traces_redis
+    image: redis:4.0-alpine
+    ports:
+      - "6379:6379"
