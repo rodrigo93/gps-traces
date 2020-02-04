@@ -12,7 +12,7 @@ exclude_paths:
   - storage
   - tmp
   - vendor
-  - db
+  - db/
 
 detectors:
   # https://github.com/troessner/reek/blob/master/docs/Irresponsible-Module.md

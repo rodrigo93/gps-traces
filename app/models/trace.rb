@@ -4,7 +4,7 @@ class Trace < ApplicationRecord
   validate :check_coordinates
 
   def parsed
-    JSON.parse(self.coordinates)
+    JSON.parse(coordinates)
   end
 
   private
@@ -15,6 +15,6 @@ class Trace < ApplicationRecord
       raise StandardError if Coordinate.new(coordinates).invalid?
     end
   rescue StandardError
-    self.errors.add(:coordinates, 'The JSON must be well formatted and all latitudes and longitudes must be present')
+    errors.add(:coordinates, 'The JSON must be well formatted and all latitudes and longitudes must be present')
   end
 end
