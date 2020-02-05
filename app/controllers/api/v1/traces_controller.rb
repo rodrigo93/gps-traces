@@ -1,7 +1,8 @@
 module Api
   module V1
     class TracesController < ApplicationController
-      before_action :set_trace, only: %i[show update destroy]
+      before_action :fetch_trace, only: %i[show]
+      before_action :set_trace, only: %i[update destroy]
 
       rescue_from ActiveRecord::RecordNotFound do
         render json: {error: 'Trace cannot be found'}, status: :not_found
@@ -38,7 +39,17 @@ module Api
 
       private
 
-      # Use callbacks to share common setup or constraints between actions.
+      def fetch_trace
+        id = params[:id]
+        redis_trace_key = "trace_#{id}"
+        @trace = $redis.get(redis_trace_key)
+
+        unless @trace.present?
+          @trace = Trace.find(id)
+          $redis.set(redis_trace_key, @trace.to_json)
+        end
+      end
+
       def set_trace
         @trace = Trace.find(params[:id])
       end

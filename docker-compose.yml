@@ -3,9 +3,18 @@ version: '3.4'
 services:
   gps_traces:
     build: .
+    depends_on:
+      - 'redis'
     ports:
       - '3000:3000'
+    links:
+      - "redis"
     volumes:
       - .:/app
       - ./.git:/app/.git
       - ./.gitignore:/app/.gitignore
+  redis:
+    image: redis:4.0-alpine
+    command: redis-server
+    ports:
+      - "6379:6379"
