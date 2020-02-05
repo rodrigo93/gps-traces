@@ -12,6 +12,7 @@ This is an example trace:
 # Stack
 
 - Docker
+- Redis
 - SQLite3
 - Rails 6.0.0
 - Ruby 2.6.5
@@ -20,6 +21,9 @@ This is an example trace:
 ## Tools
 
 ### Lints
+
+To run all lints, just run `$ pronto run`
+
 #### Ruby
 
 - [brakeman](https://github.com/presidentbeef/brakeman): static analysis security vulnerability scanner for Ruby on Rails applications (via [pronto-brakeman](https://github.com/prontolabs/pronto-brakeman))
@@ -67,21 +71,9 @@ Open a bash session inside a temporary `gps_traces` container.
 
 Build and run everything that is declared in `Dockerfile`.
 
-> `dev/bundle-install`
-
-Runs `bundle install` inside a temporary `gps_traces` container.
-
-> `dev/bundle-update`
-
-Runs `bundle update` inside a temporary `gps_traces` container. 
-
 > `dev/console`
 
 Open a `rails console` inside a container. By default it will open inside the `gps_traces` container.
-
-> `dev/lint`
-
-Run all configured lints in the project.
 
 > `dev/logs`
 
