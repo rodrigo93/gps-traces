@@ -43,8 +43,78 @@ RSpec.describe Trace, type: :model do
     end
   end
 
+  describe 'callbacks' do
+    describe 'before_save :update_distances' do
+      context 'when the Trace is updated' do
+        context 'and it does not have distances calculated' do
+          let(:trace) { Trace.create(coordinates: [{"latitude": -73.9483489990234, "longitude": -73.9483489990234}].to_json) }
+
+          it 'should calculate all "distances" for each coordinate' do
+            trace.parsed.each do |coordinate|
+              expect(coordinate.has_key?(:coordinate)).to be_truthy
+            end
+          end
+        end
+
+        context 'and it has distances calculated' do
+          let(:old_coordinates) do
+            [{"latitude": 32.9377784729004, "longitude": -117.230392456055, "distance": 0},
+             {"latitude": 32.937801361084, "longitude": -117.230323791504, "distance": 6}].to_json
+          end
+
+          let(:trace) { Trace.create(coordinates: old_coordinates) }
+
+          let(:new_coordinates) do
+            [{"latitude": 32.9378204345703, "longitude": -117.230278015137},
+             {"latitude": 32.9378204345703, "longitude": -117.230239868164}].to_json
+          end
+
+          let(:expected_new_coordinates_with_distances) do
+            [{"latitude": 32.9378204345703, "longitude": -117.230278015137, "distance": 0},
+             {"latitude": 32.9378204345703, "longitude": -117.230239868164, "distance": 4}].to_json
+          end
+
+          it 'should calculate all "distances" for each coordinate' do
+            trace.update_attributes(coordinates: new_coordinates)
+
+            trace.reload
+
+            expect(trace.coordinates).to eq expected_new_coordinates_with_distances
+
+            trace.parsed.each do |coordinate|
+              expect(coordinate.has_key?(:distance)).to be_truthy
+              expect(coordinate.distance).not_to be_blank
+            end
+          end
+        end
+      end
+
+      context 'when coordinates did not changed' do
+        let(:trace) { Trace.create(coordinates: [{"latitude": -73.9483489990234, "longitude": -73.9483489990234}].to_json) }
+
+        it 'should not update "coordinates" attribute' do
+          old_coordinates = trace.coordinates
+
+          trace.touch
+
+          expect(old_coordinates).to eq(trace.coordinates)
+        end
+      end
+
+      context 'when the Trace is created' do
+        let(:trace) { Trace.create(coordinates: [{"latitude": -73.9483489990234, "longitude": -73.9483489990234}].to_json) }
+
+        it 'should calculate all "distances" for each coordinate' do
+          trace.parsed.each do |coordinate|
+            expect(coordinate.has_key?(:distance)).to be_truthy
+          end
+        end
+      end
+    end
+  end
+
   describe '#parsed' do
-    let!(:trace) { Trace.create!(coordinates: [{"latitude":40.780517578125,"longitude":-73.9483489990234}].to_json) }
+    let!(:trace) { Trace.create!(coordinates: [{"latitude": 40.780517578125, "longitude": -73.9483489990234}].to_json) }
 
     it 'should return all coordinates as Hash' do
       trace.parsed.each do |parsed_coordinate|

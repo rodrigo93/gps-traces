@@ -1,7 +1,9 @@
 class Trace < ApplicationRecord
-  validates_presence_of :coordinates
 
+  validates_presence_of :coordinates
   validate :check_coordinates
+
+  before_save :update_distances, if: -> { changes.include?(:coordinates) }
 
   def parsed
     JSON.parse(coordinates)
@@ -16,5 +18,9 @@ class Trace < ApplicationRecord
     end
   rescue StandardError
     errors.add(:coordinates, 'The JSON must be well formatted and all latitudes and longitudes must be present')
+  end
+
+  def update_distances
+    raise NotImplementedError, 'Implement this method'
   end
 end
