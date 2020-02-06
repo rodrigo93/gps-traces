@@ -5,14 +5,14 @@ class Trace < ApplicationRecord
 
   before_save :update_distances, if: -> { changes.include?(:coordinates) }
 
-  def parsed
+  def coordinates_as_hash
     JSON.parse(coordinates)
   end
 
   private
 
   def check_coordinates
-    parsed.each do |coordinates|
+    coordinates_as_hash.each do |coordinates|
       coordinates.deep_symbolize_keys!
       raise StandardError if Coordinate.new(coordinates).invalid?
     end

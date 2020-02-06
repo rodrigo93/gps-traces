@@ -50,7 +50,7 @@ RSpec.describe Trace, type: :model do
           let(:trace) { Trace.create(coordinates: [{"latitude": -73.9483489990234, "longitude": -73.9483489990234}].to_json) }
 
           it 'should calculate all "distances" for each coordinate' do
-            trace.parsed.each do |coordinate|
+            trace.coordinates_as_hash.each do |coordinate|
               expect(coordinate.has_key?(:coordinate)).to be_truthy
             end
           end
@@ -81,7 +81,7 @@ RSpec.describe Trace, type: :model do
 
             expect(trace.coordinates).to eq expected_new_coordinates_with_distances
 
-            trace.parsed.each do |coordinate|
+            trace.coordinates_as_hash.each do |coordinate|
               expect(coordinate.has_key?(:distance)).to be_truthy
               expect(coordinate.distance).not_to be_blank
             end
@@ -105,7 +105,7 @@ RSpec.describe Trace, type: :model do
         let(:trace) { Trace.create(coordinates: [{"latitude": -73.9483489990234, "longitude": -73.9483489990234}].to_json) }
 
         it 'should calculate all "distances" for each coordinate' do
-          trace.parsed.each do |coordinate|
+          trace.coordinates_as_hash.each do |coordinate|
             expect(coordinate.has_key?(:distance)).to be_truthy
           end
         end
@@ -113,11 +113,11 @@ RSpec.describe Trace, type: :model do
     end
   end
 
-  describe '#parsed' do
+  describe '#coordinates_as_hash' do
     let!(:trace) { Trace.create!(coordinates: [{"latitude": 40.780517578125, "longitude": -73.9483489990234}].to_json) }
 
     it 'should return all coordinates as Hash' do
-      trace.parsed.each do |parsed_coordinate|
+      trace.coordinates_as_hash.each do |parsed_coordinate|
         expect(parsed_coordinate).to be_kind_of Hash
       end
     end
