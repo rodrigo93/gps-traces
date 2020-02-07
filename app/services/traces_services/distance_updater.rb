@@ -15,6 +15,7 @@ module TracesServices
 
     attr_accessor :trace, :new_coordinates, :distance_calculator
 
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def calculate_coordinates_distances
       new_coordinates.each_with_index do |coordinate, index|
         if index.zero?
@@ -22,7 +23,7 @@ module TracesServices
           next
         end
 
-        previous_coordinate = new_coordinates[index-1]
+        previous_coordinate = new_coordinates[index - 1]
         distance = distance_calculator.distance_between_coordinates(previous_coordinate[:latitude],
                                                                     previous_coordinate[:longitude],
                                                                     coordinate[:latitude],
@@ -31,6 +32,7 @@ module TracesServices
         new_coordinates[index][:distance] = (distance + previous_coordinate[:distance]).ceil
       end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     def update_trace
       @trace.coordinates = new_coordinates.to_json

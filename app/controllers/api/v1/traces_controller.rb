@@ -46,6 +46,8 @@ module Api
 
         unless @trace.present?
           @trace = Trace.find(id)
+          @trace.update_distances! unless @trace.distances_calculated?
+
           $redis.set(redis_trace_key, @trace.to_json)
         end
       end
