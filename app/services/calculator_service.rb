@@ -10,6 +10,7 @@ class CalculatorService
     # https://en.wikipedia.org/wiki/Haversine_formula
     # https://www.igismap.com/haversine-formula-calculate-geographic-distance-earth/
     #
+    # rubocop:disable Metrics/AbcSize
     def distance_between_coordinates(latitude1, longitude1, latitude2, longitude2)
       d_latitude = to_radians(latitude2 - latitude1)
       d_longitude = to_radians(longitude2 - longitude1)
@@ -26,6 +27,7 @@ class CalculatorService
 
       EARTH_RADIUS_METERS * c
     end
+    # rubocop:enable Metrics/AbcSize
 
     def to_radians(value)
       value.to_f * RADIUS_PER_DEGREE

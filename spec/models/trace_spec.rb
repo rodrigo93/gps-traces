@@ -51,27 +51,30 @@ RSpec.describe Trace, type: :model do
 
           it 'should calculate all "distances" for each coordinate' do
             trace.coordinates_as_hash.each do |coordinate|
-              expect(coordinate.has_key?(:coordinate)).to be_truthy
+              expect(coordinate.has_key?(:distance)).to be_truthy
             end
           end
         end
 
         context 'and it has distances calculated' do
           let(:old_coordinates) do
-            [{"latitude": 32.9377784729004, "longitude": -117.230392456055, "distance": 0},
-             {"latitude": 32.937801361084, "longitude": -117.230323791504, "distance": 6}].to_json
+            [{ "latitude": 32.9377784729004, "longitude": -117.230392456055, "distance": 0},
+             { "latitude": 32.937801361084, "longitude": -117.230323791504, "distance": 6},
+             { "latitude": 32.9378204345703, "longitude": -117.230278015137, "distance": 11}].to_json
           end
 
           let(:trace) { Trace.create(coordinates: old_coordinates) }
 
           let(:new_coordinates) do
-            [{"latitude": 32.9378204345703, "longitude": -117.230278015137},
-             {"latitude": 32.9378204345703, "longitude": -117.230239868164}].to_json
+            [{ "latitude": 32.9378204345703, "longitude": -117.230239868164},
+             { "latitude": 32.9378318786621, "longitude": -117.230209350586},
+             { "latitude": 32.9378814697266, "longitude": -117.230102539062}].to_json
           end
 
           let(:expected_new_coordinates_with_distances) do
-            [{"latitude": 32.9378204345703, "longitude": -117.230278015137, "distance": 0},
-             {"latitude": 32.9378204345703, "longitude": -117.230239868164, "distance": 4}].to_json
+            [{ "latitude": 32.9378204345703, "longitude": -117.230239868164, "distance": 0},
+             { "latitude": 32.9378318786621, "longitude": -117.230209350586, "distance": 4},
+             { "latitude": 32.9378814697266, "longitude": -117.230102539062, "distance": 16}].to_json
           end
 
           it 'should calculate all "distances" for each coordinate' do
@@ -83,7 +86,7 @@ RSpec.describe Trace, type: :model do
 
             trace.coordinates_as_hash.each do |coordinate|
               expect(coordinate.has_key?(:distance)).to be_truthy
-              expect(coordinate.distance).not_to be_blank
+              expect(coordinate[:distance]).not_to be_blank
             end
           end
         end
