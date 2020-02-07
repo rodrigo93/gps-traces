@@ -9,7 +9,7 @@ disallow_single_word:
 
 character_limit:
   enabled: true
-  number: 72
+  number: 100
 
 summary_character_limit:
   enabled: true
