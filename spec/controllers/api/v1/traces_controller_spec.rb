@@ -49,6 +49,22 @@ RSpec.describe Api::V1::TracesController, type: :controller do
     end
   end
 
+  shared_context 'updating trace' do
+    it 'should update the Trace' do
+      old_update_at = trace.updated_at
+
+      subject
+
+      expect(trace.reload.updated_at).to be > old_update_at
+    end
+  end
+
+  shared_context 'not creating a new Trace' do
+    it 'should not create a new Trace' do
+      expect { subject }.to change { Trace.count }.by(0)
+    end
+  end
+
   describe '#POST create' do
     subject { post :create, params: params }
 
@@ -119,15 +135,9 @@ RSpec.describe Api::V1::TracesController, type: :controller do
 
       it_should_behave_like 'returning ok status'
 
-      it 'should not create a new Trace' do
-        expect { subject }.to change { Trace.count }.by(0)
-      end
+      it_should_behave_like 'not creating a new Trace'
 
-      it 'should update the trace' do
-        subject
-
-        expect(trace.reload.coordinates).to eq coordinates_params.to_json
-      end
+      it_should_behave_like 'updating trace'
     end
 
     context 'when validating "coordinates"' do
@@ -196,15 +206,9 @@ RSpec.describe Api::V1::TracesController, type: :controller do
 
       it_should_behave_like 'returning ok status'
 
-      it 'should not create a new Trace' do
-        expect { subject }.to change { Trace.count }.by(0)
-      end
+      it_should_behave_like 'updating trace'
 
-      it 'should update the trace' do
-        subject
-
-        expect(trace.reload.coordinates).to eq coordinates_params.to_json
-      end
+      it_should_behave_like 'not creating a new Trace'
     end
 
     context 'when validating "coordinates"' do

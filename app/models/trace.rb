@@ -10,7 +10,7 @@ class Trace < ApplicationRecord
   end
 
   def distances_calculated?
-    coordinates_as_hash.each { |coordinate| coordinate.has_key?(:distance) }
+    coordinates_as_hash.all? { |coordinate| coordinate.has_key?(:distance) }
   end
 
   private
