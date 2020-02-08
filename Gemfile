@@ -26,12 +26,20 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'hiredis'
 gem 'redis-rails'
 
+# Typhoeus wraps libcurl in order to make fast and reliable request_builders.
+# https://github.com/typhoeus/typhoeus
+gem 'typhoeus', '~> 1.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 
   gem 'rspec-rails', '4.0.0.beta3'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
+end
+
+group :test do
+  gem 'webmock', '~> 2.1'
 end
 
 group :development do
