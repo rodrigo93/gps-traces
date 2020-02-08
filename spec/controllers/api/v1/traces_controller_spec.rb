@@ -261,8 +261,26 @@ RSpec.describe Api::V1::TracesController, type: :controller do
     subject { get :show, params: {id: trace_id} }
 
     context 'when the Trace exists' do
-      let!(:trace) { Trace.create!(coordinates: [{"latitude":40.780517578125,"longitude":-73.9483489990234}].to_json) }
+      let(:coordinates) { [{"latitude":40.780517578125, "longitude":-73.9483489990234, "distance": 0}].to_json }
+      let!(:trace) { Trace.create!(coordinates: coordinates) }
       let(:trace_id) { trace.id }
+
+      let(:headers) do
+        {
+            'Accept' => 'application/json;',
+            'Content-Type' => 'application/json'
+        }
+      end
+      let(:endpoint) { 'https://codingcontest.runtastic.com/api/elevations/bulk' }
+      let(:api_response) { '[1, 2, 3]' }
+
+      let(:raw_request_body) { JSON.parse(coordinates) }
+
+      before :each do
+        stub_request(:post, endpoint).
+            with(body: raw_request_body.to_json).
+            to_return(status: 200, body: api_response)
+      end
 
       it_should_behave_like 'returning json content-type'
 

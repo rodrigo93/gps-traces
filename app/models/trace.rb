@@ -27,6 +27,16 @@ class Trace < ApplicationRecord
     reload
   end
 
+  def update_elevations
+    TracesServices::ElevationUpdater.new(self).call
+  end
+
+  def update_elevations!
+    update_elevations
+    save!
+    reload
+  end
+
   private
 
   def calculated_metric?(metric_key)

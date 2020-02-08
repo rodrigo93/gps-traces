@@ -31,7 +31,7 @@ RSpec.describe TracesServices::ElevationUpdater, type: :service do
 
     let(:raw_request_body) { JSON.parse(coordinates) }
 
-    before do
+    before :each do
       stub_request(:post, endpoint).
           with(body: raw_request_body.to_json).
           to_return(status: 200, body: response)
