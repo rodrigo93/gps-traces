@@ -25,4 +25,3 @@ module RequestBuilders
     end
   end
 end
-

@@ -10,7 +10,11 @@ class Trace < ApplicationRecord
   end
 
   def distances_calculated?
-    coordinates_as_hash.all? { |coordinate| coordinate.key?(:distance) }
+    calculated_metric?(:distance)
+  end
+
+  def elevations_calculated?
+    calculated_metric?(:elevation)
   end
 
   def update_distances
@@ -24,6 +28,10 @@ class Trace < ApplicationRecord
   end
 
   private
+
+  def calculated_metric?(metric_key)
+    coordinates_as_hash.all? { |coordinate| coordinate.key?(metric_key.to_sym) }
+  end
 
   def check_coordinates
     coordinates_as_hash.each do |coordinate|
