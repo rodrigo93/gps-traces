@@ -39,7 +39,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'webmock', '~> 2.1'
+  gem 'webmock', '~> 3.8'
 end
 
 group :development do
