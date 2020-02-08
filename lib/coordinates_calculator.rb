@@ -1,4 +1,4 @@
-class CalculatorService
+class CoordinatesCalculator
   class << self
     EARTH_RADIUS_KM = 6371
     EARTH_RADIUS_METERS = (EARTH_RADIUS_KM * 1000)

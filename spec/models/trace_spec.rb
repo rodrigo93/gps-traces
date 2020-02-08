@@ -157,4 +157,36 @@ RSpec.describe Trace, type: :model do
       end
     end
   end
+
+  describe '#elevations_calculated?' do
+    subject { trace.elevations_calculated? }
+
+    let!(:trace) { Trace.create(coordinates: coordinates) }
+
+    context 'when all elevations are calculated' do
+      let(:coordinates) do
+        [{ "latitude": 32.9377784729004, "longitude": -117.230392456055, "distance": 0, "elevation": 4139 },
+         { "latitude": 32.937801361084, "longitude": -117.230323791504, "distance": 6, "elevation": 4139 },
+         { "latitude": 32.9378204345703, "longitude": -117.230278015137, "distance": 11, "elevation": 4139 }].to_json
+      end
+
+      it 'should return true' do
+        expect(subject).to be_truthy
+      end
+    end
+
+    context 'when no elevation is calculated' do
+      let(:coordinates) do
+        [{"latitude": 32.9377784729004, "longitude": -117.230392456055},
+         {"latitude": 32.937801361084, "longitude": -117.230323791504},
+         {"latitude": 32.9378204345703, "longitude": -117.230278015137}].to_json
+      end
+
+      it 'should return false' do
+        trace.update_column(:coordinates, coordinates)
+
+        expect(subject).to be_falsey
+      end
+    end
+  end
 end
