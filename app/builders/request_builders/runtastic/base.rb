@@ -7,6 +7,14 @@ module RequestBuilders
         ::RequestBuilders::Runtastic::Request.new(method.to_sym, url)
       end
 
+      def build
+        raise NotImplementedError, 'This method must be overwritten by the heiress class'
+      end
+
+      def run
+        build.run
+      end
+
       protected
 
       attr_reader :base_url

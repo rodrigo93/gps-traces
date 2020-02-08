@@ -26,21 +26,13 @@ module RequestBuilders
 
       def build_options
         {method: method, headers: default_headers}.tap do |options|
-          options[:body] = parse_body(body) if body.present?
+          options[:body] = body.to_json if body.present?
         end
       end
 
       def default_headers
         {'Accept' => 'application/json;',
          'Content-Type' => 'application/json'}
-      end
-
-      def parse_body(content)
-        reject_blank_fields(content).to_json
-      end
-
-      def reject_blank_fields(params)
-        params.reject { |_key, value| value.nil? }
       end
     end
   end
