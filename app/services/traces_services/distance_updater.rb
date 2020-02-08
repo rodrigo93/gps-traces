@@ -3,7 +3,7 @@ module TracesServices
     def initialize(trace)
       @trace = trace
       @new_coordinates ||= trace.coordinates_as_hash
-      @distance_calculator ||= CalculatorService
+      @distance_calculator ||= CoordinatesCalculator
     end
 
     def call

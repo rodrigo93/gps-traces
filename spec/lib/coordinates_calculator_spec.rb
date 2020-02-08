@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CalculatorService, type: :service do
+RSpec.describe CoordinatesCalculator, type: :service do
 
   describe '.distance_between_coordinates' do
     subject { described_class.distance_between_coordinates(first_point[:latitude], first_point[:longitude],
